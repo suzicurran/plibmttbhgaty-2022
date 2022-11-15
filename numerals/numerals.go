@@ -33,25 +33,22 @@ func ConvertToRoman(arabic int) string {
 		}
 	}
 
-	// for arabic > 0 {
-	// 	switch {
-	// 	case arabic > 9:
-	// 		roman.WriteString("X")
-	// 		arabic -= 10
-	// 	case arabic == 9:
-	// 		roman.WriteString("IX")
-	// 		arabic -= 9
-	// 	case arabic > 4:
-	// 		roman.WriteString("V")
-	// 		arabic -= 5
-	// 	case arabic == 4:
-	// 		roman.WriteString("IV")
-	// 		arabic -= 4
-	// 	default:
-	// 		roman.WriteString("I")
-	// 		arabic -= 1
-	// 	}
-	// }
-
 	return roman.String()
+}
+
+func ConvertToArabic(roman string) int {
+	var arabic int = 0
+
+	for _, symbol := range roman {
+		var value int = 0
+		for _, mapping := range allRomanNumeralsDesc {
+			if mapping.Symbol == string(symbol) {
+				value = mapping.Value
+				break
+			}
+		}
+		arabic += value
+	}
+
+	return arabic
 }
