@@ -23,6 +23,25 @@ var allRomanNumeralsDesc = []RomanNumeral{
 	{1, "I"},
 }
 
+var romanNumeralPairs = []RomanNumeral{
+	{900, "CM"},
+	{400, "CD"},
+	{90, "XC"},
+	{40, "XL"},
+	{9, "IX"},
+	{4, "IV"},
+}
+
+var romanNumeralSingletons = []RomanNumeral{
+	{1000, "M"},
+	{500, "D"},
+	{100, "C"},
+	{50, "L"},
+	{10, "X"},
+	{5, "V"},
+	{1, "I"},
+}
+
 func ConvertToRoman(arabic int) string {
 	var roman strings.Builder
 
@@ -39,15 +58,18 @@ func ConvertToRoman(arabic int) string {
 func ConvertToArabic(roman string) int {
 	var arabic int = 0
 
-	for _, symbol := range roman {
-		var value int = 0
-		for _, mapping := range allRomanNumeralsDesc {
-			if mapping.Symbol == string(symbol) {
-				value = mapping.Value
-				break
-			}
+	for _, numeralPair := range romanNumeralPairs {
+		if strings.Index(roman, numeralPair.Symbol) != -1 {
+			roman = strings.Replace(roman, numeralPair.Symbol, "", 1)
+			arabic += numeralPair.Value
 		}
-		arabic += value
+	}
+
+	for _, numeral := range romanNumeralSingletons {
+		for strings.Index(roman, numeral.Symbol) != -1 {
+			roman = strings.Replace(roman, numeral.Symbol, "", 1)
+			arabic += numeral.Value
+		}
 	}
 
 	return arabic
